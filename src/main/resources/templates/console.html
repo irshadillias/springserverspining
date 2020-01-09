@@ -1,3 +1,1162 @@
+<!doctype html>
+<html lang="en">
+
+<!-- codeface  -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> User panal </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="resources/assets/media/image/favicon.png"/>
+
+    <!-- Plugin styles -->
+    <link rel="stylesheet" href="resources/vendors/bundle.css" type="text/css">
+
+    <!-- Datepicker -->
+    <link rel="stylesheet" href="resources/vendors/datepicker/daterangepicker.css">
+
+    <!-- Slick -->
+    <link rel="stylesheet" href="resources/vendors/slick/slick.css">
+    <link rel="stylesheet" href="resources/vendors/slick/slick-theme.css">
+
+    <!-- Vmap -->
+    <link rel="stylesheet" href="resources/vendors/vmap/jqvmap.min.css">
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="resources/assets/css/app.min.css" type="text/css">
+    <link rel="stylesheet" href="themify-icons.css">
+</head>
+<body>
+
+<!-- begin::page loader-->
+<div class="page-loader">
+    <div class="spinner-border"></div>
+</div>
+<!-- end::page loader -->
+
+<!-- begin::sidebar user profile -->
+<div class="sidebar" id="userProfile">
+    <div class="text-center p-4">
+        <figure class="avatar avatar-state-success avatar-lg mb-4">
+            <img src="resources/assets/media/image/avatar.jpg" class="rounded-circle" alt="image">
+        </figure>
+        <h4 class="text-primary"><a class="btn btn-default" th:href="@{/admin.html}" th:text="#{label.pages.admin}">admin</a></h4>
+        <p class="text-muted d-flex align-items-center justify-content-center line-height-0 mb-0">
+            <a th:href="@{/logout}" th:text="#{label.pages.logout}">logout</a>
+        </p>
+        
+    </div>
+    <hr class="m-0">
+    <div class="p-4">
+      
+      
+      <br/>
+      
+      
+        <div class="mb-4">
+            
+            <div th:if="${#authentication.principal.using2FA}">
+        		<h6>You are using Two-step authentication</h6> 
+        		<a href="#" class="btn btn-primary" onclick="disable2FA()">Disable 2FA</a> 
+      		</div>
+        
+      		<div th:if="${! #authentication.principal.using2FA}">
+        		<h6>You are not using Two-step authentication </h6>
+        		<a href="#" class="btn btn-primary" onclick="enable2FA()">Enable 2FA</a> 
+      		</div>
+        </div>
+        <div class="mb-4">
+            <h6 class="text-uppercase font-size-11 mb-3">
+                Scan this Barcode using Google Authenticator app on your phone
+                
+            </h6>
+           	<div id="qr" style="display:none;">
+	          <p> 
+	                 <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android</a> and 
+	                 <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605">iPhone</a>
+	          </p>
+      </div>
+        </div>
+        <!-- <div class="mb-4">
+            <h6 class="text-uppercase font-size-11 mb-3 ">
+            Total Websites
+                <span class="float-right">(4/10)</span>
+            </h6>
+            <div class="progress m-b-20" style="height: 5px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 40%;" aria-valuenow="40"
+                     aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <h6 class="text-uppercase font-size-11 mb-3"></h6>
+            <div class="form-group">
+                <div class="form-item custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="customSwitch11">
+                    <label class="custom-control-label" for="customSwitch11">Block</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-item custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" checked="" id="customSwitch12">
+                    <label class="custom-control-label" for="customSwitch12">Mute</label>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
+<!-- end::sidebar user profile -->
+
+<!-- begin::sidebar settings -->
+<div class="sidebar" id="settings">
+    <header>
+        <i class="ti-settings"></i> Settings
+    </header>
+    <div class="p-4">
+        <div class="mb-3">
+            <h6 class="text-uppercase font-size-11 mb-3 text-muted">Sample settings</h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Sample updates</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" checked>
+                        <label class="custom-control-label" for="customSwitch1"></label>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Sample updates</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch2" checked>
+                        <label class="custom-control-label" for="customSwitch2"></label>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Sample updates</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch3" checked>
+                        <label class="custom-control-label" for="customSwitch3"></label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="mb-3">
+            <h6 class="text-uppercase font-size-11 mb-3 text-muted">Account</h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Server security</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch4">
+                        <label class="custom-control-label" for="customSwitch4"></label>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Account protection</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch5" checked>
+                        <label class="custom-control-label" for="customSwitch5"></label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="mb-3">
+            <h6 class="text-uppercase font-size-11 mb-3 text-muted">Notifications</h6>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Browser notifications</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch6">
+                        <label class="custom-control-label" for="customSwitch6"></label>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Mobile notifications</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch7">
+                        <label class="custom-control-label" for="customSwitch7"></label>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Email subscription</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch8">
+                        <label class="custom-control-label" for="customSwitch8"></label>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between p-l-r-0 p-t-b-5">
+                    <span>Sms notifications</span>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch9" checked>
+                        <label class="custom-control-label" for="customSwitch9"></label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- end::sidebar settings -->
+
+<!-- begin::navigation -->
+<div class="navigation">
+    <div class="navigation-icon-menu">
+        <ul>
+            <li class="active" data-toggle="tooltip" title="Dashboard">
+                <a href="#navigationDashboards" title="Dashboards">
+                    <i class="icon ti-pie-chart"></i>
+                    <span class="badge badge-warning">2</span>
+                </a>
+            </li>
+            <li data-toggle="tooltip" title="Apps">
+                <a href="#navigationApps" title="Apps">
+                    <i class="icon ti-package"></i>
+                </a>
+            </li>
+            <li data-toggle="tooltip" title="Plugins">
+                <a href="#navigationPlugins">
+                    <i class="icon ti-brush-alt"></i>
+                </a>
+            </li>
+            <li data-toggle="tooltip" title="Elements">
+                <a href="#navigationElements">
+                    <i class="icon ti-layers"></i>
+                </a>
+            </li>
+            <li data-toggle="tooltip" title="Pages">
+                <a href="#navigationPages" title="User Pages">
+                    <i class="icon ti-user"></i>
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li data-toggle="tooltip" title="Edit Profile">
+                <a href="#" class="go-to-page">
+                    <i class="icon ti-settings"></i>
+                </a>
+            </li>
+            <li data-toggle="tooltip" title="Logout">
+                <a href="login.html" class="go-to-page">
+                    <i class="icon ti-power-off"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="navigation-menu-body">
+        <ul id="navigationDashboards" class="navigation-active">
+            <li class="navigation-divider">DASHBOARD</li>
+            <li>
+                <a class="active" href="index.html">Sample text</a>
+            </li>
+            <li>
+                <a href="dashboard-two.html">Sample text <span class="badge badge-warning">2</span></a>
+            </li>
+            <li>
+                <a href="dashboard-three.html">Sample text </a>
+            </li>
+            <li class="navigation-divider">Sample text</li>
+            <li>
+                <a href="widgets.html">Sample text</a>
+            </li>
+            <li class="navigation-divider">Sample text</li>
+            <li>
+                <a href="#">
+                    <div class="d-flex align-items-center mb-2">
+                        <div>
+                            <div class="icon-block bg-warning text-white mr-3">
+                                <i class="ti-harddrives"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h6 class="text-uppercase font-size-11">Total Size</h6>
+                            <h4 class="m-b-0">32 GB</h4>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="d-flex align-items-center mb-2">
+                        <div>
+                            <div class="icon-block bg-success text-white mr-3">
+                                <i class="ti-harddrive"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h6 class="text-uppercase font-size-11">Used</h6>
+                            <h4 class="m-b-0">10 GB</h4>
+                        </div>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <div class="icon-block bg-info text-white mr-3">
+                                <i class="ti-user"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <h6 class="text-uppercase font-size-11">Bandwidth</h6>
+                            <h4 class="m-b-0">( 12/50 GB )</h4>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+        <ul id="navigationApps">
+            <li class="navigation-divider">Apps</li>
+            <li>
+                <a href="chat.html">Sample text</a>
+            </li>
+            <li>
+                <a href="inbox.html">Sample text</a>
+            </li>
+            <li>
+                <a href="calendar.html">Sample text</a>
+            </li>
+            <li>
+                <a href="gallery.html">Sample text</a>
+            </li>
+            <li class="navigation-divider">Sample text</li>
+          
+        </ul>
+        <ul id="navigationPlugins">
+            <li class="navigation-divider">Sample text</li>
+            <li><a href="sweet-alert.html">Sample text</a></li>
+            <li><a href="lightbox.html">Sample text </a></li>
+            <li><a href="toast.html">Sample text </a></li>
+            <li><a href="tour.html">Sample text </a></li>
+            <li><a href="slick-slide.html">Sample text </a></li>
+            <li><a href="nestable.html">Sample text </a></li>
+            <li>
+                <a href="charts.html">Sample texts</a>
+                <ul>
+                    <li><a href="chart-apex.html">Sample text</a></li>
+                    <li><a href="chartjs.html">Sample text</a></li>
+                    <li><a href="chart-justgage.html">Sample text</a></li>
+                    <li><a href="chart-morsis.html">Sample text</a></li>
+                    <li><a href="chart-peity.html">Sample text</a></li>
+                </ul>
+            </li>
+           
+        </ul>
+    </div>
+</div>
+<!-- end::navigation -->
+
+<!-- begin::header -->
+<div class="header">
+
+    <!-- begin::header logo -->
+    
+    <div class="header-logo">
+        <a href="index.html">
+            <img class="large-logo" src="resources/assets/media/image/logo.png" alt="image">
+            <img class="small-logo" src="resources/assets/media/image/logo-sm.png" alt="image">
+            <img class="dark-logo" src="resources/assets/media/image/logo-dark.png" alt="image">
+        </a>
+    </div>
+    <!-- end::header logo -->
+
+    <!-- begin::header body -->
+    <div class="header-body">
+
+        <div class="header-body-left">
+
+            <h3 class="page-title">Welcome Admin</h3>
+
+            <!-- begin::breadcrumb -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Admin Panel</a></li>
+                   
+                </ol>
+            </nav>
+            <!-- end::breadcrumb -->
+
+        </div>
+
+        <div class="header-body-right">
+            <!-- begin::navbar main body -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <form>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search image">
+                            <div class="input-group-append">
+                                <button class="btn btn-light" type="button">
+                                    <i class="ti-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </li>
+               
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link nav-link-notify" data-toggle="dropdown" style="width:110px;">
+                        <i class="ti-pencil-alt "></i>&nbsp;Create
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-big">
+                        <div class="p-4 text-center" data-backround-image="resources/assets/media/image/image1.png">
+                            <h6 class="text-uppercase m-b-0">Create </h6>
+                           
+                        </div>
+                        <div>
+                            <ul class="list-group list-group-flush">
+                                <li>
+                                    <a href="#" class="p-3 list-group-item d-flex link-1 hide-show-toggler serv_s1">
+                                        <div>
+                                            <figure class="avatar avatar-sm m-r-10">
+                                                <span class="avatar-title bg-success rounded-circle"> <i class="ti-bolt" style="font-size: 21px;"></i></span>
+                                            </figure>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="m-b-0 m-t-10 d-flex justify-content-between">
+                                                Create New Droplet
+                                                <i title="Make unread" data-toggle="tooltip"
+                                                   class="hide-show-toggler-item fa fa-check font-size-11"></i>
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="p-3 list-group-item d-flex link-1 hide-show-toggler serv_s1 ">
+                                        <div>
+                                            <figure class="avatar avatar-sm m-r-10">
+                                                <span class="avatar-title bg-success rounded-circle"> <i class="ti-bolt" style="font-size: 21px;"></i></span>
+                                            </figure>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="m-b-0 m-t-10 d-flex justify-content-between">
+                                                Create New Droplet
+                                                <i title="Make unread" data-toggle="tooltip"
+                                                   class="hide-show-toggler-item fa fa-check font-size-11"></i>
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </li>
+                               <li>
+                                    <a href="#" class="p-3 list-group-item d-flex link-1 hide-show-toggler serv_s1">
+                                        <div>
+                                            <figure class="avatar avatar-sm m-r-10">
+                                                <span class="avatar-title bg-success rounded-circle"> <i class="ti-bolt" style="font-size: 21px;"></i></span>
+                                            </figure>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="m-b-0 m-t-10 d-flex justify-content-between">
+                                                Create New Droplet
+                                                <i title="Make unread" data-toggle="tooltip"
+                                                   class="hide-show-toggler-item fa fa-check font-size-11"></i>
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="p-3 list-group-item d-flex link-1 hide-show-toggler serv_s1">
+                                        <div>
+                                            <figure class="avatar avatar-sm m-r-10">
+                                                <span class="avatar-title bg-success rounded-circle"> <i class="ti-bolt" style="font-size: 21px;"></i></span>
+                                            </figure>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <h6 class="m-b-0 m-t-10 d-flex justify-content-between">
+                                                Create New Droplet
+                                                <i title="Make unread" data-toggle="tooltip"
+                                                   class="hide-show-toggler-item fa fa-check font-size-11"></i>
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                       
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link" data-toggle="dropdown">
+                        <i class="ti-bell"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-big">
+                        <div class="p-4 text-center" data-backround-image="resources/assets/media/image/image1.png">
+                            <h6 class="text-uppercase m-b-0">Notifications</h6>
+                            <small class="font-size-11 opacity-7">2 unread notifications</small>
+                        </div>
+                        <div class="p-3">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div>
+                                        <figure class="avatar avatar-state-danger avatar-sm m-r-15 bring-forward">
+                                            <span class="avatar-title bg-info-bright text-info rounded-circle">
+                                                <i class="fa fa-file-text-o font-size-20"></i>
+                                            </span>
+                                        </figure>
+                                    </div>
+                                    <div>
+                                        <p class="m-b-5">
+                                            <a href="#">Kevin added</a> new attachment to the ticket
+                                            <a href="#">Software Bug Reporting</a>
+                                        </p>
+                                        <small class="text-muted">
+                                            <i class="fa fa-clock-o m-r-5"></i> 8 hours ago
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div>
+                                        <figure class="avatar avatar-state-danger avatar-sm m-r-15 bring-forward">
+                                            <span class="avatar-title bg-warning-bright text-warning rounded-circle">
+                                                <i class="fa fa-money font-size-20"></i>
+                                            </span>
+                                        </figure>
+                                    </div>
+                                    <div>
+                                        <p class="m-b-5">
+                                            <a href="#">Katherine</a> submitted new ticket
+                                            <a href="#">Payment Method</a>
+                                        </p>
+                                        <small class="text-muted">
+                                            <i class="fa fa-clock-o m-r-5"></i> Yesterday
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div>
+                                        <figure class="avatar avatar-sm m-r-15 bring-forward">
+                                            <span class="avatar-title bg-success-bright text-success rounded-circle">
+                                                <i class="fa fa-dollar font-size-20"></i>
+                                            </span>
+                                        </figure>
+                                    </div>
+                                    <div>
+                                        <p class="m-b-5">
+                                            <a href="#">Katherine</a> changed settings to ticket category
+                                            <a href="#">Payment & Invoice</a>
+                                        </p>
+                                        <small class="text-muted">
+                                            <i class="fa fa-clock-o m-r-5"></i> 1 days ago
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3 text-right">
+                            <ul class="list-inline small">
+                                <li class="list-inline-item">
+                                    <a href="#">Mark All Read</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link bg-none" data-sidebar-open="#userProfile">
+                        <div>
+                            <figure class="avatar avatar-state-success avatar-sm">
+                                <img src="resources/assets/media/image/avatar.jpg" class="rounded-circle" alt="image">
+                            </figure>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <!-- end::navbar main body -->
+
+            <div class="d-flex align-items-center">
+                <!-- begin::navbar navigation toggler -->
+                <div class="d-xl-none d-lg-none d-sm-block navigation-toggler">
+                    <a href="#">
+                        <i class="ti-menu"></i>
+                    </a>
+                </div>
+                <!-- end::navbar navigation toggler -->
+
+                <!-- begin::navbar toggler -->
+                <div class="d-xl-none d-lg-none d-sm-block navbar-toggler">
+                    <a href="#">
+                        <i class="ti-arrow-down"></i>
+                    </a>
+                </div>
+                <!-- end::navbar toggler -->
+            </div>
+        </div>
+
+    </div>
+    <!-- end::header body -->
+
+</div>
+<!-- end::header -->
+
+<!-- begin::main content -->
+<main class="main-content">
+<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
+<div class="card">
+        <div class="card-body">
+            <table id="example1" class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Tiger Nixon</td>
+                    <td>System Architect</td>
+                    <td>Edinburgh</td>
+                    <td>61</td>
+                    <td>2011/04/25</td>
+                    <td>$320,800</td>
+                </tr>
+                <tr>
+                    <td>Garrett Winters</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>63</td>
+                    <td>2011/07/25</td>
+                    <td>$170,750</td>
+                </tr>
+                <tr>
+                    <td>Ashton Cox</td>
+                    <td>Junior Technical Author</td>
+                    <td>San Francisco</td>
+                    <td>66</td>
+                    <td>2009/01/12</td>
+                    <td>$86,000</td>
+                </tr>
+                <tr>
+                    <td>Cedric Kelly</td>
+                    <td>Senior Javascript Developer</td>
+                    <td>Edinburgh</td>
+                    <td>22</td>
+                    <td>2012/03/29</td>
+                    <td>$433,060</td>
+                </tr>
+                <tr>
+                    <td>Airi Satou</td>
+                    <td>Accountant</td>
+                    <td>Tokyo</td>
+                    <td>33</td>
+                    <td>2008/11/28</td>
+                    <td>$162,700</td>
+                </tr>
+                <tr>
+                    <td>Brielle Williamson</td>
+                    <td>Integration Specialist</td>
+                    <td>New York</td>
+                    <td>61</td>
+                    <td>2012/12/02</td>
+                    <td>$372,000</td>
+                </tr>
+                <tr>
+                    <td>Herrod Chandler</td>
+                    <td>Sales Assistant</td>
+                    <td>San Francisco</td>
+                    <td>59</td>
+                    <td>2012/08/06</td>
+                    <td>$137,500</td>
+                </tr>
+                <tr>
+                    <td>Rhona Davidson</td>
+                    <td>Integration Specialist</td>
+                    <td>Tokyo</td>
+                    <td>55</td>
+                    <td>2010/10/14</td>
+                    <td>$327,900</td>
+                </tr>
+                <tr>
+                    <td>Colleen Hurst</td>
+                    <td>Javascript Developer</td>
+                    <td>San Francisco</td>
+                    <td>39</td>
+                    <td>2009/09/15</td>
+                    <td>$205,500</td>
+                </tr>
+                <tr>
+                    <td>Sonya Frost</td>
+                    <td>Software Engineer</td>
+                    <td>Edinburgh</td>
+                    <td>23</td>
+                    <td>2008/12/13</td>
+                    <td>$103,600</td>
+                </tr>
+                <tr>
+                    <td>Jena Gaines</td>
+                    <td>Office Manager</td>
+                    <td>London</td>
+                    <td>30</td>
+                    <td>2008/12/19</td>
+                    <td>$90,560</td>
+                </tr>
+                <tr>
+                    <td>Quinn Flynn</td>
+                    <td>Support Lead</td>
+                    <td>Edinburgh</td>
+                    <td>22</td>
+                    <td>2013/03/03</td>
+                    <td>$342,000</td>
+                </tr>
+                <tr>
+                    <td>Charde Marshall</td>
+                    <td>Regional Director</td>
+                    <td>San Francisco</td>
+                    <td>36</td>
+                    <td>2008/10/16</td>
+                    <td>$470,600</td>
+                </tr>
+                <tr>
+                    <td>Haley Kennedy</td>
+                    <td>Senior Marketing Designer</td>
+                    <td>London</td>
+                    <td>43</td>
+                    <td>2012/12/18</td>
+                    <td>$313,500</td>
+                </tr>
+                <tr>
+                    <td>Tatyana Fitzpatrick</td>
+                    <td>Regional Director</td>
+                    <td>London</td>
+                    <td>19</td>
+                    <td>2010/03/17</td>
+                    <td>$385,750</td>
+                </tr>
+                <tr>
+                    <td>Michael Silva</td>
+                    <td>Marketing Designer</td>
+                    <td>London</td>
+                    <td>66</td>
+                    <td>2012/11/27</td>
+                    <td>$198,500</td>
+                </tr>
+                <tr>
+                    <td>Paul Byrd</td>
+                    <td>Chief Financial Officer (CFO)</td>
+                    <td>New York</td>
+                    <td>64</td>
+                    <td>2010/06/09</td>
+                    <td>$725,000</td>
+                </tr>
+                <tr>
+                    <td>Gloria Little</td>
+                    <td>Systems Administrator</td>
+                    <td>New York</td>
+                    <td>59</td>
+                    <td>2009/04/10</td>
+                    <td>$237,500</td>
+                </tr>
+                <tr>
+                    <td>Bradley Greer</td>
+                    <td>Software Engineer</td>
+                    <td>London</td>
+                    <td>41</td>
+                    <td>2012/10/13</td>
+                    <td>$132,000</td>
+                </tr>
+                <tr>
+                    <td>Dai Rios</td>
+                    <td>Personnel Lead</td>
+                    <td>Edinburgh</td>
+                    <td>35</td>
+                    <td>2012/09/26</td>
+                    <td>$217,500</td>
+                </tr>
+                <tr>
+                    <td>Jenette Caldwell</td>
+                    <td>Development Lead</td>
+                    <td>New York</td>
+                    <td>30</td>
+                    <td>2011/09/03</td>
+                    <td>$345,000</td>
+                </tr>
+                <tr>
+                    <td>Yuri Berry</td>
+                    <td>Chief Marketing Officer (CMO)</td>
+                    <td>New York</td>
+                    <td>40</td>
+                    <td>2009/06/25</td>
+                    <td>$675,000</td>
+                </tr>
+                <tr>
+                    <td>Caesar Vance</td>
+                    <td>Pre-Sales Support</td>
+                    <td>New York</td>
+                    <td>21</td>
+                    <td>2011/12/12</td>
+                    <td>$106,450</td>
+                </tr>
+                <tr>
+                    <td>Doris Wilder</td>
+                    <td>Sales Assistant</td>
+                    <td>Sidney</td>
+                    <td>23</td>
+                    <td>2010/09/20</td>
+                    <td>$85,600</td>
+                </tr>
+                <tr>
+                    <td>Angelica Ramos</td>
+                    <td>Chief Executive Officer (CEO)</td>
+                    <td>London</td>
+                    <td>47</td>
+                    <td>2009/10/09</td>
+                    <td>$1,200,000</td>
+                </tr>
+                <tr>
+                    <td>Gavin Joyce</td>
+                    <td>Developer</td>
+                    <td>Edinburgh</td>
+                    <td>42</td>
+                    <td>2010/12/22</td>
+                    <td>$92,575</td>
+                </tr>
+                <tr>
+                    <td>Jennifer Chang</td>
+                    <td>Regional Director</td>
+                    <td>Singapore</td>
+                    <td>28</td>
+                    <td>2010/11/14</td>
+                    <td>$357,650</td>
+                </tr>
+                <tr>
+                    <td>Brenden Wagner</td>
+                    <td>Software Engineer</td>
+                    <td>San Francisco</td>
+                    <td>28</td>
+                    <td>2011/06/07</td>
+                    <td>$206,850</td>
+                </tr>
+                <tr>
+                    <td>Fiona Green</td>
+                    <td>Chief Operating Officer (COO)</td>
+                    <td>San Francisco</td>
+                    <td>48</td>
+                    <td>2010/03/11</td>
+                    <td>$850,000</td>
+                </tr>
+                <tr>
+                    <td>Shou Itou</td>
+                    <td>Regional Marketing</td>
+                    <td>Tokyo</td>
+                    <td>20</td>
+                    <td>2011/08/14</td>
+                    <td>$163,000</td>
+                </tr>
+                <tr>
+                    <td>Michelle House</td>
+                    <td>Integration Specialist</td>
+                    <td>Sidney</td>
+                    <td>37</td>
+                    <td>2011/06/02</td>
+                    <td>$95,400</td>
+                </tr>
+                <tr>
+                    <td>Suki Burks</td>
+                    <td>Developer</td>
+                    <td>London</td>
+                    <td>53</td>
+                    <td>2009/10/22</td>
+                    <td>$114,500</td>
+                </tr>
+                <tr>
+                    <td>Prescott Bartlett</td>
+                    <td>Technical Author</td>
+                    <td>London</td>
+                    <td>27</td>
+                    <td>2011/05/07</td>
+                    <td>$145,000</td>
+                </tr>
+                <tr>
+                    <td>Gavin Cortez</td>
+                    <td>Team Leader</td>
+                    <td>San Francisco</td>
+                    <td>22</td>
+                    <td>2008/10/26</td>
+                    <td>$235,500</td>
+                </tr>
+                <tr>
+                    <td>Martena Mccray</td>
+                    <td>Post-Sales support</td>
+                    <td>Edinburgh</td>
+                    <td>46</td>
+                    <td>2011/03/09</td>
+                    <td>$324,050</td>
+                </tr>
+                <tr>
+                    <td>Unity Butler</td>
+                    <td>Marketing Designer</td>
+                    <td>San Francisco</td>
+                    <td>47</td>
+                    <td>2009/12/09</td>
+                    <td>$85,675</td>
+                </tr>
+                <tr>
+                    <td>Howard Hatfield</td>
+                    <td>Office Manager</td>
+                    <td>San Francisco</td>
+                    <td>51</td>
+                    <td>2008/12/16</td>
+                    <td>$164,500</td>
+                </tr>
+                <tr>
+                    <td>Hope Fuentes</td>
+                    <td>Secretary</td>
+                    <td>San Francisco</td>
+                    <td>41</td>
+                    <td>2010/02/12</td>
+                    <td>$109,850</td>
+                </tr>
+                <tr>
+                    <td>Vivian Harrell</td>
+                    <td>Financial Controller</td>
+                    <td>San Francisco</td>
+                    <td>62</td>
+                    <td>2009/02/14</td>
+                    <td>$452,500</td>
+                </tr>
+                <tr>
+                    <td>Timothy Mooney</td>
+                    <td>Office Manager</td>
+                    <td>London</td>
+                    <td>37</td>
+                    <td>2008/12/11</td>
+                    <td>$136,200</td>
+                </tr>
+                <tr>
+                    <td>Jackson Bradshaw</td>
+                    <td>Director</td>
+                    <td>New York</td>
+                    <td>65</td>
+                    <td>2008/09/26</td>
+                    <td>$645,750</td>
+                </tr>
+                <tr>
+                    <td>Olivia Liang</td>
+                    <td>Support Engineer</td>
+                    <td>Singapore</td>
+                    <td>64</td>
+                    <td>2011/02/03</td>
+                    <td>$234,500</td>
+                </tr>
+                <tr>
+                    <td>Bruno Nash</td>
+                    <td>Software Engineer</td>
+                    <td>London</td>
+                    <td>38</td>
+                    <td>2011/05/03</td>
+                    <td>$163,500</td>
+                </tr>
+                <tr>
+                    <td>Sakura Yamamoto</td>
+                    <td>Support Engineer</td>
+                    <td>Tokyo</td>
+                    <td>37</td>
+                    <td>2009/08/19</td>
+                    <td>$139,575</td>
+                </tr>
+                <tr>
+                    <td>Thor Walton</td>
+                    <td>Developer</td>
+                    <td>New York</td>
+                    <td>61</td>
+                    <td>2013/08/11</td>
+                    <td>$98,540</td>
+                </tr>
+                <tr>
+                    <td>Finn Camacho</td>
+                    <td>Support Engineer</td>
+                    <td>San Francisco</td>
+                    <td>47</td>
+                    <td>2009/07/07</td>
+                    <td>$87,500</td>
+                </tr>
+                <tr>
+                    <td>Serge Baldwin</td>
+                    <td>Data Coordinator</td>
+                    <td>Singapore</td>
+                    <td>64</td>
+                    <td>2012/04/09</td>
+                    <td>$138,575</td>
+                </tr>
+                <tr>
+                    <td>Zenaida Frank</td>
+                    <td>Software Engineer</td>
+                    <td>New York</td>
+                    <td>63</td>
+                    <td>2010/01/04</td>
+                    <td>$125,250</td>
+                </tr>
+                <tr>
+                    <td>Zorita Serrano</td>
+                    <td>Software Engineer</td>
+                    <td>San Francisco</td>
+                    <td>56</td>
+                    <td>2012/06/01</td>
+                    <td>$115,000</td>
+                </tr>
+                <tr>
+                    <td>Jennifer Acosta</td>
+                    <td>Junior Javascript Developer</td>
+                    <td>Edinburgh</td>
+                    <td>43</td>
+                    <td>2013/02/01</td>
+                    <td>$75,650</td>
+                </tr>
+                <tr>
+                    <td>Cara Stevens</td>
+                    <td>Sales Assistant</td>
+                    <td>New York</td>
+                    <td>46</td>
+                    <td>2011/12/06</td>
+                    <td>$145,600</td>
+                </tr>
+                <tr>
+                    <td>Hermione Butler</td>
+                    <td>Regional Director</td>
+                    <td>London</td>
+                    <td>47</td>
+                    <td>2011/03/21</td>
+                    <td>$356,250</td>
+                </tr>
+                <tr>
+                    <td>Lael Greer</td>
+                    <td>Systems Administrator</td>
+                    <td>London</td>
+                    <td>21</td>
+                    <td>2009/02/27</td>
+                    <td>$103,500</td>
+                </tr>
+                <tr>
+                    <td>Jonas Alexander</td>
+                    <td>Developer</td>
+                    <td>San Francisco</td>
+                    <td>30</td>
+                    <td>2010/07/14</td>
+                    <td>$86,500</td>
+                </tr>
+                <tr>
+                    <td>Shad Decker</td>
+                    <td>Regional Director</td>
+                    <td>Edinburgh</td>
+                    <td>51</td>
+                    <td>2008/11/13</td>
+                    <td>$183,000</td>
+                </tr>
+                <tr>
+                    <td>Michael Bruce</td>
+                    <td>Javascript Developer</td>
+                    <td>Singapore</td>
+                    <td>29</td>
+                    <td>2011/06/27</td>
+                    <td>$183,000</td>
+                </tr>
+                <tr>
+                    <td>Donna Snider</td>
+                    <td>Customer Support</td>
+                    <td>New York</td>
+                    <td>27</td>
+                    <td>2011/01/25</td>
+                    <td>$112,000</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Office</th>
+                    <th>Age</th>
+                    <th>Start date</th>
+                    <th>Salary</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    
+
+</main>
+<!-- end::main content -->
+
+<!-- Plugin scripts -->
+<script src="resources/vendors/bundle.js"></script>
+<!-- DataTable -->
+<script src="resources/vendors/dataTable/jquery.dataTables.min.js"></script>
+<script src="resources/vendors/dataTable/dataTables.bootstrap4.min.js"></script>
+<script src="resources/vendors/dataTable/dataTables.responsive.min.js"></script>
+<script src="resources/assets/js/examples/datatable.js"></script>
+<!-- Chartjs -->
+<script src="resources/vendors/charts/chartjs/chart.min.js"></script>
+
+<!-- Circle progress -->
+<script src="resources/vendors/circle-progress/circle-progress.min.js"></script>
+
+<!-- Peity -->
+<script src="resources/vendors/charts/peity/jquery.peity.min.js"></script>
+<script src="resources/assets/js/examples/charts/peity.js"></script>
+
+<!-- Datepicker -->
+<script src="resources/vendors/datepicker/daterangepicker.js"></script>
+
+<!-- Slick -->
+<script src="resources/vendors/slick/slick.min.js"></script>
+
+<!-- Vamp -->
+<script src="resources/vendors/vmap/jquery.vmap.min.js"></script>
+<script src="resources/vendors/vmap/maps/jquery.vmap.usa.js"></script>
+<script src="resources/assets/js/examples/vmap.js"></script>
+<script src="resources/assets/js/app.min.js"></script>
+<!-- Dashboard scripts -->
+<script src="resources/assets/js/examples/dashboard.js"></script>
+<script type="text/javascript">
+function enable2FA(){
+    set2FA(true);
+}
+
+function disable2FA(){
+    set2FA(false);
+}
+
+function set2FA(use2FA){
+    $.post( "/user/update/2fa", { use2FA: use2FA } , function( data ) {
+        if(use2FA){
+        	$("#qr").append('<img src="'+data.message+'" />').show();
+        }else{
+            window.location.reload();
+        }
+    });
+}
+</script>
+<div class="colors"> <!-- To use theme colors with Javascript -->
+    <div class="bg-primary"></div>
+    <div class="bg-primary-bright"></div>
+    <div class="bg-secondary"></div>
+    <div class="bg-secondary-bright"></div>
+    <div class="bg-info"></div>
+    <div class="bg-info-bright"></div>
+    <div class="bg-success"></div>
+    <div class="bg-success-bright"></div>
+    <div class="bg-danger"></div>
+    <div class="bg-danger-bright"></div>
+    <div class="bg-warning"></div>
+    <div class="bg-warning-bright"></div>
+</div>
+
+<!-- App scripts -->
+
+</body>
+
+<!-- codeface  -->
+</html>
+
+
+
+
+
+
+
+<!-- 
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
@@ -70,3 +1229,5 @@ function set2FA(use2FA){
 </body>
 
 </html>
+
+ -->

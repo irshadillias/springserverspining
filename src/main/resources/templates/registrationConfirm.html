@@ -1,3 +1,64 @@
+<!doctype html>
+<html>
+
+<!-- codeface  -->
+<!--  <head lang="en" th:replace="/fragments/header :: header"> </head> -->
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="resources/assets/media/image/favicon.png"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:text="#{label.pages.home.title}">Title</title>
+    <!-- Favicon -->
+    <link rel="stylesheet" href="resources/assets/media/image/favicon.png">
+    <!-- Plugin styles -->
+    <link rel="stylesheet" href="resources/vendors/bundle.css" type="text/css">
+    <!-- App styles -->
+   <link rel="stylesheet" href="resources/assets/css/app.min.css" type="text/css">
+   
+
+</head>
+
+<body class="form-membership">
+<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
+<div th:if="${param.error != null}" class="alert alert-danger" th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+<!-- begin::page loader-->
+<div class="page-loader">
+    <div class="spinner-border"></div>
+</div>
+<!-- end::page loader -->
+
+<div class="form-wrapper">
+    <a href="?lang=en" th:text="#{label.form.loginEnglish}">login</a> | 
+    <a href="?lang=es_ES" th:text="#{label.form.loginSpanish}">login</a>
+    <!-- logo -->
+    <div class="logo">
+        <img src="resources/assets/media/image/logo-sm.png" alt="image">
+    </div>
+    <!-- ./ logo -->
+    
+    <h5 class="alert alert-info" th:text="#{message.regSucc}">success</h5>
+	<br/>
+	<span th:if="${param.token != null}" th:text="#{token.message}">token</span>
+	<span th:text="${param.token}">token</span>
+	<br/>
+	<a class="btn btn-primary" th:href="@{/login}" th:text="#{label.login}">login</a>
+    
+
+</div>
+<!-- <div lang="en" th:replace="/fragments/footer :: footer"> </div> -->
+<!-- Plugin scripts -->
+<script src="resources/vendors/bundle.js"></script>
+<!-- App scripts -->
+<script src="resources/assets/js/app.min.js"></script>
+</body>
+
+<!-- codeface  -->
+</html>
+
+
+
 <html>
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
