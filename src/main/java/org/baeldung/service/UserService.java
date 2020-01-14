@@ -210,20 +210,25 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<String> getUsersFromSessionRegistry() {
+    public List<User> getUsersFromSessionRegistry() {
         return sessionRegistry.getAllPrincipals()
             .stream()
             .filter((u) -> !sessionRegistry.getAllSessions(u, false)
                 .isEmpty())
             .map(o -> {
                 if (o instanceof User) {
-                    return ((User) o).getEmail();
+                    return ((User) o);
                 } else {
-                    return o.toString();
+                    return null;
                 }
             })
             .collect(Collectors.toList());
 
+    }
+    
+    @Override
+    public List<User> getAllUser() {
+    	return userRepository.findAll();
     }
 
 }

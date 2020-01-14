@@ -16,26 +16,6 @@
     <link rel="stylesheet" href="resources/vendors/bundle.css" type="text/css">
     <!-- App styles -->
    <link rel="stylesheet" href="resources/assets/css/app.min.css" type="text/css">
-   <script th:inline="javascript">
-	function validate() {
-        if (document.f.username.value == "" && document.f.password.value == "") {
-            toastr.success(/*[[#{message.username} + #{message.password}]]*/);
-            document.f.username.focus();
-            return false;
-        }
-        if (document.f.username.value == "") {
-            toastr.success(/*[[#{message.username}]]*/);
-            document.f.username.focus();
-            return false;
-        }
-        if (document.f.password.value == "") {
-            toastr.success(/*[[#{message.password}]]*/);
-            document.f.password.focus();
-            return false;
-        }
-    }
-    
-</script>
 
 </head>
 

@@ -46,6 +46,8 @@ public interface IUserService {
 
     User updateUser2FA(boolean use2FA);
 
-    List<String> getUsersFromSessionRegistry();
+    List<User> getUsersFromSessionRegistry();
+    
+    List<User> getAllUser();
 
 }

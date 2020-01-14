@@ -30,4 +30,11 @@ public class UserController {
         model.addAttribute("users", userService.getUsersFromSessionRegistry());
         return "users";
     }
+    
+    @RequestMapping(value = "/listalluser", method = RequestMethod.GET)
+    public String getUsersProfile(final Locale locale, final Model model) {
+        model.addAttribute("users", userService.getAllUser());
+        return "userlist";
+    }
+    
 }
